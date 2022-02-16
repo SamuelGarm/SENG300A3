@@ -68,8 +68,9 @@ public class ElectronicScale extends AbstractDevice<ElectronicScaleObserver> {
 
 		if(currentWeightInGrams <= weightLimitInGrams)
 			return currentWeightInGrams + new Random().nextDouble() / 10.0;
-
+		
 		throw new OverloadException();
+		
 	}
 
 	/**
