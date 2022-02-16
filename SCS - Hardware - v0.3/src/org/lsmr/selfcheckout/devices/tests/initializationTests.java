@@ -1,9 +1,13 @@
-package org.lsmr.selfcheckout.devices;
+package org.lsmr.selfcheckout.devices.tests;
+
+import org.lsmr.selfcheckout.devices.ElectronicScale;
+import org.lsmr.selfcheckout.devices.SimulationException;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+
 
 import static junit.framework.TestCase.fail;
 
@@ -12,12 +16,12 @@ import java.util.Collection;
 
 
 @RunWith(Parameterized.class)
-public class electronicScaleTests {
+public class initializationTests {
     private final int limit;
     private final int sens;
     private final boolean expected;
     
-    public electronicScaleTests(int limit, int sens, boolean expected){
+    public initializationTests(int limit, int sens, boolean expected){
         this.limit = limit;
         this.sens = sens;
         this.expected = expected;
