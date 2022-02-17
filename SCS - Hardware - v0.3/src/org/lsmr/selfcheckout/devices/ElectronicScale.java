@@ -68,8 +68,9 @@ public class ElectronicScale extends AbstractDevice<ElectronicScaleObserver> {
 
 		if(currentWeightInGrams <= weightLimitInGrams)
 			return currentWeightInGrams + new Random().nextDouble() / 10.0;
-
+		
 		throw new OverloadException();
+		
 	}
 
 	/**
@@ -91,10 +92,11 @@ public class ElectronicScale extends AbstractDevice<ElectronicScaleObserver> {
 	 * 
 	 * @param item
 	 *            The item to add.
+	 * @throws Exception 
 	 * @throws SimulationException
 	 *             If the same item is added more than once.
 	 */
-	public void add(Item item) {
+	public void add(Item item) throws Exception {
 		if(phase == Phase.ERROR)
 			throw new SimulationException(new IllegalStateException(
 				"This method may not be used when the device is in an erroneous operation phase."));
@@ -129,6 +131,7 @@ public class ElectronicScale extends AbstractDevice<ElectronicScaleObserver> {
 		if(phase == Phase.ERROR)
 			throw new SimulationException(new IllegalStateException(
 				"This method may not be used when the device is in an erroneous operation phase."));
+
 		if(phase == Phase.CONFIGURATION)
 			throw new SimulationException(
 				new IllegalStateException("This method may not be called during the configuration phase."));
