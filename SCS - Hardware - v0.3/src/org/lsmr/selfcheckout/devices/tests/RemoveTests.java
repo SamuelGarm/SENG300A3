@@ -139,7 +139,7 @@ class stubObserver implements ElectronicScaleObserver {
 		}
 		//system should not be in overloaded state
 		myScale.remove(myItem);
-		assertTrue(myObserver.outOfOverloadNotified);
+		assertTrue("The observer was not notified of the outOfOverlead message", myObserver.outOfOverloadNotified);
 	}
 	
 	@Test
@@ -162,7 +162,7 @@ class stubObserver implements ElectronicScaleObserver {
 		}
 		//system should not be in overloaded state
 		myScale.remove(myItem3);
-		assertTrue(myObserver.outOfOverloadNotified);
+		assertTrue("The observer was not notified of the outOfOverlead message", myObserver.outOfOverloadNotified);
 	}
 	
 	@Test
@@ -189,7 +189,7 @@ class stubObserver implements ElectronicScaleObserver {
 		//system should not be in overloaded state
 		myScale.remove(myItem3);
 		myScale.remove(myItem4);
-		assertTrue(myObserver.outOfOverloadNotified);
+		assertTrue("The observer was not notified of the outOfOverlead message" ,myObserver.outOfOverloadNotified);
 	}
 	
 	@Test 
@@ -208,6 +208,6 @@ class stubObserver implements ElectronicScaleObserver {
 		}
 		//system should not be in overloaded state
 		myScale.remove(myItem);
-		assertTrue(myObserver.weightChangedNotified);
+		assertTrue("The observer was not notified of the changeInWeight message", myObserver.weightChangedNotified);
 	}
 }
