@@ -15,7 +15,7 @@ class createItem extends Item {
 	}
 }
 
-public class getCurrentWeightTests {
+public class GetCurrentWeightTests {
 	ElectronicScale myScale;
 	
 	@Before
@@ -57,7 +57,11 @@ public class getCurrentWeightTests {
 	public void OverloadScale() {
 		createItem new_item = new createItem(15);
 		myScale.endConfigurationPhase();
-		myScale.add(new_item);
+		try {
+			myScale.add(new_item);
+		} catch (Exception e1) {
+			fail("Unexpected exception thrown while adding item, can't proceed with test");
+		}
 		try {
 			myScale.getCurrentWeight();
 			fail("Expected OverloadException to be thrown but, No exception thrown");
@@ -71,7 +75,11 @@ public class getCurrentWeightTests {
 	public void weightTest() {
 		createItem new_item = new createItem(5);
 		myScale.endConfigurationPhase();
-		myScale.add(new_item);
+		try {
+			myScale.add(new_item);
+		} catch (Exception e1) {
+			fail("Unexpected exception thrown while adding item, can't proceed with test");
+		}
 		try {
 			double actual_result = myScale.getCurrentWeight();
 			Assert.assertEquals(5.0, actual_result, 1.0);

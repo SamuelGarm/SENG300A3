@@ -4,6 +4,8 @@ import org.lsmr.selfcheckout.devices.ElectronicScale;
 import org.lsmr.selfcheckout.devices.OverloadException;
 import org.lsmr.selfcheckout.devices.SimulationException;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,15 +25,17 @@ public class AddTests {
     }
 
     @Test(expected = SimulationException.class)
-    public void sameItem(){                             //adding the same item twice should throw Exception
+    public void sameItem() throws Exception{                             //adding the same item twice should throw Exception
         this.testItem = new ItemStub(1);
         this.testScale.endConfigurationPhase();
-        this.testScale.add(testItem);
-        this.testScale.add(testItem);
+		this.testScale.add(testItem);
+		this.testScale.add(testItem);
+
+        
     }
 
     @Test
-    public void overWeight1(){                          //adding item over weight limit should call notifyOverload()
+    public void overWeight1() throws Exception{                          //adding item over weight limit should call notifyOverload()
         this.testItem = new ItemStub(100);
         this.testScale.endConfigurationPhase();
         this.testScale.add(testItem);
@@ -39,7 +43,7 @@ public class AddTests {
     }
 
     @Test
-    public void overWeight2(){                          //item added equal to limit, so notifyOverload() NOT called
+    public void overWeight2() throws Exception{                          //item added equal to limit, so notifyOverload() NOT called
         this.testItem = new ItemStub(10);
         this.testScale.endConfigurationPhase();
         this.testScale.add(testItem);
@@ -47,7 +51,7 @@ public class AddTests {
     }
 
     @Test
-    public void overWeight3(){                          //item added less than limit, so notifyOverload() NOT called
+    public void overWeight3() throws Exception{                          //item added less than limit, so notifyOverload() NOT called
         this.testItem = new ItemStub(1);
         this.testScale.endConfigurationPhase();
         this.testScale.add(testItem);
@@ -55,7 +59,7 @@ public class AddTests {
     }
 
     @Test
-    public void sensTest1(){                            //item added less than sensitivity, so notifyWeightChanged() NOT called
+    public void sensTest1() throws Exception{                            //item added less than sensitivity, so notifyWeightChanged() NOT called
         this.testItem = new ItemStub(0.5);
         this.testScale.endConfigurationPhase();
         this.testScale.add(testItem);
@@ -63,7 +67,7 @@ public class AddTests {
     }
 
     @Test
-    public void sensTest2(){                            //item added equal to sensitivity, so notifyWeightChanged() NOT called
+    public void sensTest2() throws Exception{                            //item added equal to sensitivity, so notifyWeightChanged() NOT called
         this.testItem = new ItemStub(1);
         this.testScale.endConfigurationPhase();
         this.testScale.add(testItem);
@@ -71,7 +75,7 @@ public class AddTests {
     }
 
     @Test
-    public void sensTest3(){                            //item added greater than sensitivity, so notifyWeightChanged() is called
+    public void sensTest3() throws Exception{                            //item added greater than sensitivity, so notifyWeightChanged() is called
         this.testItem = new ItemStub(2);
         this.testScale.endConfigurationPhase();
         this.testScale.add(testItem);
@@ -79,13 +83,13 @@ public class AddTests {
     }
 
     @Test(expected = SimulationException.class)
-    public void phaseTest1(){                           //still in CONFIGURATION so throw error
+    public void phaseTest1() throws Exception{                           //still in CONFIGURATION so throw error
         this.testItem = new ItemStub(2);
         this.testScale.add(testItem);
     }
 
     @Test(expected = SimulationException.class)
-    public void phaseTest2(){                           //in ERROR so throw error
+    public void phaseTest2() throws Exception{                           //in ERROR so throw error
         this.testItem = new ItemStub(2);
         this.testScale.forceErrorPhase();
         this.testScale.add(testItem);

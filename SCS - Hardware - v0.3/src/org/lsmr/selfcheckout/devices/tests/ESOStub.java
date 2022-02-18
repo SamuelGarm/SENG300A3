@@ -9,6 +9,7 @@ public class ESOStub implements ElectronicScaleObserver {
 
     public boolean over = false;
     public boolean change = false;
+    public boolean outOfOver = false;
     
     public void weightChanged(ElectronicScale scale, double weightInGrams){
         this.change = true;
@@ -19,7 +20,7 @@ public class ESOStub implements ElectronicScaleObserver {
     }
 
     public void outOfOverload(ElectronicScale scale){
-        ;
+    	outOfOver = true;
     }
 
     public void enabled(AbstractDevice<? extends AbstractDeviceObserver> device) {

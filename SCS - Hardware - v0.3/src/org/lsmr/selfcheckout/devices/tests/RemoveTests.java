@@ -9,15 +9,6 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 
-class stubItem extends Item {
-	stubItem() {
-		super(10);
-	}
-	stubItem(double weight) {
-		super(weight);
-	}
-}
-
 public class RemoveTests {
 	ElectronicScale myScale;
 	
@@ -76,7 +67,7 @@ public class RemoveTests {
 	public void EmptyScaleValidItem()
 	{
 		myScale.endConfigurationPhase();
-		Item myItem = new stubItem();
+		Item myItem = new ItemStub(10);
 		try {
 			myScale.remove(myItem);
 			fail("Expected SimulationException to be thrown in ERROR phase, no ExceptionThrown");
@@ -93,7 +84,7 @@ public class RemoveTests {
 	public void nonEmptyScaleValidItem()
 	{
 		myScale.endConfigurationPhase();
-		Item myItem = new stubItem();
+		Item myItem = new ItemStub(10);
 		try {
 			myScale.add(myItem);
 		} catch (Exception e1) {
@@ -108,30 +99,16 @@ public class RemoveTests {
 		}
 	}
 	
-class stubObserver implements ElectronicScaleObserver {
-	public boolean outOfOverloadNotified = false;
-	public boolean weightChangedNotified = false;
-	public void enabled(AbstractDevice<? extends AbstractDeviceObserver> device) {}
-	public void disabled(AbstractDevice<? extends AbstractDeviceObserver> device) {}
-	public void weightChanged(ElectronicScale scale, double weightInGrams) {
-		weightChangedNotified = true;
-	}
-	public void overload(ElectronicScale scale) {}
-	public void outOfOverload(ElectronicScale scale) {
-		outOfOverloadNotified = true;
-	}
-	
-}
 	
 	@Test
 	public void leaveOverloadState1Item()
 	{
 		myScale = new ElectronicScale(10,1);
-		stubObserver myObserver = new stubObserver();
+		ESOStub myObserver = new ESOStub();
 		myScale.attach(myObserver);
 		myScale.endConfigurationPhase();
 		
-		stubItem myItem = new stubItem(15);
+		Item myItem = new ItemStub(15);
 		try {
 			myScale.add(myItem);
 		} catch (Exception e1) {
@@ -139,20 +116,20 @@ class stubObserver implements ElectronicScaleObserver {
 		}
 		//system should not be in overloaded state
 		myScale.remove(myItem);
-		assertTrue("The observer was not notified of the outOfOverlead message", myObserver.outOfOverloadNotified);
+		assertTrue("The observer was not notified of the outOfOverlead message", myObserver.outOfOver);
 	}
 	
 	@Test
 	public void leaveOverloadStateAddMultipleRemove1()
 	{
 		myScale = new ElectronicScale(10,1);
-		stubObserver myObserver = new stubObserver();
+		ESOStub myObserver = new ESOStub();
 		myScale.attach(myObserver);
 		myScale.endConfigurationPhase();
 		
-		stubItem myItem = new stubItem(3);
-		stubItem myItem2 = new stubItem(3);
-		stubItem myItem3 = new stubItem(15);
+		Item myItem = new ItemStub(3);
+		Item myItem2 = new ItemStub(3);
+		Item myItem3 = new ItemStub(15);
 		try {
 			myScale.add(myItem);
 			myScale.add(myItem2);
@@ -162,21 +139,21 @@ class stubObserver implements ElectronicScaleObserver {
 		}
 		//system should not be in overloaded state
 		myScale.remove(myItem3);
-		assertTrue("The observer was not notified of the outOfOverlead message", myObserver.outOfOverloadNotified);
+		assertTrue("The observer was not notified of the outOfOverlead message", myObserver.outOfOver);
 	}
 	
 	@Test
 	public void leaveOverloadStateAddMultipleRemoveMultiple()
 	{
 		myScale = new ElectronicScale(10,1);
-		stubObserver myObserver = new stubObserver();
+		ESOStub myObserver = new ESOStub();
 		myScale.attach(myObserver);
 		myScale.endConfigurationPhase();
 		
-		stubItem myItem = new stubItem(3);
-		stubItem myItem2 = new stubItem(3);
-		stubItem myItem3 = new stubItem(19);
-		stubItem myItem4 = new stubItem(34);
+		Item myItem = new ItemStub(3);
+		Item myItem2 = new ItemStub(3);
+		Item myItem3 = new ItemStub(19);
+		Item myItem4 = new ItemStub(34);
 		
 		try {
 			myScale.add(myItem);
@@ -189,18 +166,18 @@ class stubObserver implements ElectronicScaleObserver {
 		//system should not be in overloaded state
 		myScale.remove(myItem3);
 		myScale.remove(myItem4);
-		assertTrue("The observer was not notified of the outOfOverlead message" ,myObserver.outOfOverloadNotified);
+		assertTrue("The observer was not notified of the outOfOverlead message" ,myObserver.outOfOver);
 	}
 	
 	@Test 
 	public void weightChanged()
 	{
 		myScale = new ElectronicScale(10,1);
-		stubObserver myObserver = new stubObserver();
+		ESOStub myObserver = new ESOStub();
 		myScale.attach(myObserver);
 		myScale.endConfigurationPhase();
 		
-		stubItem myItem = new stubItem(7);
+		Item myItem = new ItemStub(7);
 		try {
 			myScale.add(myItem);
 		} catch (Exception e1) {
@@ -208,6 +185,6 @@ class stubObserver implements ElectronicScaleObserver {
 		}
 		//system should not be in overloaded state
 		myScale.remove(myItem);
-		assertTrue("The observer was not notified of the changeInWeight message", myObserver.weightChangedNotified);
+		assertTrue("The observer was not notified of the changeInWeight message", myObserver.change);
 	}
 }
