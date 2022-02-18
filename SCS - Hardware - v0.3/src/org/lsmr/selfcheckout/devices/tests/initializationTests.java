@@ -16,12 +16,12 @@ import java.util.Collection;
 
 
 @RunWith(Parameterized.class)
-public class initializationTests {
+public class InitializationTests {
     private final int limit;
     private final int sens;
     private final boolean expected;
     
-    public initializationTests(int limit, int sens, boolean expected){
+    public InitializationTests(int limit, int sens, boolean expected){
         this.limit = limit;
         this.sens = sens;
         this.expected = expected;
